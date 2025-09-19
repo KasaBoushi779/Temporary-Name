@@ -61,8 +61,6 @@ project. Specifically, students should be able to:
 
 ## Assignment Rubric: 10 Points
 
-<!-- TODO: read the assignment rubric then delete this comment -->
-
 Again, to be completely transparent, most of the portfolio project, except the
 final submission, is designed as a formative assessment. Formative assessments
 are meant to provide ongoing feedback in the learning process. Therefore,
@@ -184,47 +182,61 @@ will likely refine your design to make your implementation easier to use.
 
 > Please use this section to share your designs.
 
-- Component Design #1: <!-- TODO: give component a name then delete this comment -->
+- Component Design #1: 'MusicPlaylist'
   - **Description**:
-    - <!-- TODO: describe your component then delete this comment -->
+    - A component meant to model a music playlist. As there are many basic operations
+      the average playlist software there will be a fair number of kernel methods.
   - **Kernel Methods**:
-    - <!-- TODO: list kernel methods then delete this comment -->
+    - 'void queue(String[] song)': Adds a string array containing the song details to the queue.
+    - 'String[] unqueue()': Removes the song at the front of the queue and returns it.
+          Will also add it to a data structure containing previously played songs.
   - **Secondary Methods**:
-    - <!-- TODO: list secondary methods then delete this comment -->
+    - 'void nextSong()': Goes to the next song in the queue.
+    - 'void previousSong()': Goes back to the previous song in the queue.
+    - 'void shuffle()': Shuffles all songs in the playlist.
   - **Additional Considerations** (*note*: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes, it will be constantly changing due to new songs being added and songs being removed/played
     - Would this component rely on any internal classes (e.g., `Map.Pair`)?
       Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes, there would be a 'MusicPlaylist.Song' class containing song information
+          always ordered in a specific way.
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - I don't think so
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes. With previousSong() I will basically reverse what unqueue() does and add a song to the front of the queue by cycling through the whole thing via unqueue(), queue(), and a reserve data structure.
 
-- Component Design #2: <!-- TODO: give component a name then delete this comment -->
+- Component Design #2: Music Database
   - **Description**:
-    - <!-- TODO: describe your component then delete this comment -->
+    - A program that models a database of music, and which can optionally load data
+        from .csv file or print its currently stored data to a .csv file.
   - **Kernel Methods**:
-    - <!-- TODO: list kernel methods then delete this comment -->
+    - 'void addEntry(String[] song OR Song song, int index)': Adds a string array or an object of the internal class Song containing song data to the database at the specified 'index'.
+    - 'Song removeEntry(String title OR artistName OR length etc.)': Can use the song's title, artist name, or any piece of data stored within the internal class Song to search for a song and remove it. Returns null if a song with the given parameters is not found.
+    - 'Song getEntry(String title OR artistName OR length etc.)': Gets and returns a song in the database using similar parameters as described above. Returns null if a song with the given parameters is not found. Since this is a database, I thought it would be useful to have a method that only gets without removing to improve lookup times slightly. I don't think it would be terribly difficult to implement this and removeEntry in the data types I'm thinking of using either.
+    - 'int songNum()': Returns the number of individual songs in the database.
   - **Secondary Methods**:
-    - <!-- TODO: list secondary methods then delete this comment -->
+    - 'void changeSort(Comparator s)': I'll have to read up on how comparators work exactly, but any  implementation will use some variant of a sortedList or sortedMap or some similar type. This
+    method will change the databases sort type, which I believe is a common function in all these data types.
+    - 'Song[] getArtistSongs(String artistName)': Gets all songs written by a given artist and returns them as an array of Songs.
+    - 'void readEntries(String filePath)': Reads song entries in a .csv file into the database.
+    - 'void writeEntries(String filePath)': Writes song entries in a .csv file into the database.
   - **Additional Considerations** (*note*: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes, definitely
     - Would this component rely on any internal classes (e.g., `Map.Pair`)?
       Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes, it would rely on the internal class Song, which would have methods for getting its parameters
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - I don't think so
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes, with writeEntries(), for example, I could repeatedly use addEntry when reading the .csv file to add new entries to the database.
 
 - Component Design #3: <!-- TODO: give component a name then delete this comment -->
   - **Description**:
@@ -253,8 +265,6 @@ The following sections detail everything that you should do once you've
 completed the assignment.
 
 ### Changelog
-
-<!-- TODO: create CHANGELOG then delete this comment -->
 
 At the end of every assignment, you should update the
 [CHANGELOG.md](../../CHANGELOG.md) file found in the root of the project folder.
