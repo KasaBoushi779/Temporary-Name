@@ -10,6 +10,6 @@ the following form: YYYY.0M.0D.
 
 ### Added
 
-- Designed a <!-- insert name of component 1 here --> component
-- Designed a <!-- insert name of component 2 here --> component
+- Designed a MusicPlaylist component
+- Designed a MusicDatabase component
 - Designed a <!-- insert name of component 3 here --> component

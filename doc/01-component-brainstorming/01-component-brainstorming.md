@@ -209,7 +209,7 @@ will likely refine your design to make your implementation easier to use.
       Answer, explain, and give at least one example:
       - Yes. With previousSong() I will basically reverse what unqueue() does and add a song to the front of the queue by cycling through the whole thing via unqueue(), queue(), and a reserve data structure.
 
-- Component Design #2: Music Database
+- Component Design #2: MusicDatabase
   - **Description**:
     - A program that models a database of music, and which can optionally load data
         from .csv file or print its currently stored data to a .csv file.
@@ -238,9 +238,9 @@ will likely refine your design to make your implementation easier to use.
       Answer, explain, and give at least one example:
       - Yes, with writeEntries(), for example, I could repeatedly use addEntry when reading the .csv file to add new entries to the database.
 
-- Component Design #3: <!-- TODO: give component a name then delete this comment -->
+- Component Design #3: Calculator
   - **Description**:
-    - <!-- TODO: describe your component then delete this comment -->
+    - This component would model a calculator using ints, and contain the four basic operations, plus minus, multiply, and divide.
   - **Kernel Methods**:
     - <!-- TODO: list kernel methods then delete this comment -->
   - **Secondary Methods**:
