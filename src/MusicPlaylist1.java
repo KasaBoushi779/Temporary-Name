@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * A class with some implementations of musicPlaylist methods meant to show
@@ -10,7 +12,7 @@ public class MusicPlaylist1 {
      * An internal class containing song data, with methods to set and get
      * parameters (title, artist, album, length).
      */
-    public final class Song {
+    public static final class Song {
 
         /*
          * Private members--------------------------------
@@ -130,8 +132,7 @@ public class MusicPlaylist1 {
         }
 
         /**
-         * Constructor that requires a title, but leaves the other parameters as
-         * optional.
+         * Constructor that takes in all required song information.
          *
          * @param title
          *            Title of the song
@@ -141,33 +142,46 @@ public class MusicPlaylist1 {
          *            Album of the song
          * @param length
          *            Length of the song
-         * @requires title != null && title != ""
+         * @requires title, artist, album, and length are neither null nor ""
          */
         public Song(String title, String artist, String album, String length) {
             assert title != null : "Violation of : title != null";
             assert title != "" : "Violation of : title != \"\"";
+            assert artist != null : "Violation of : title != null";
+            assert artist != "" : "Violation of : title != \"\"";
+            assert album != null : "Violation of : title != null";
+            assert album != "" : "Violation of : title != \"\"";
+            assert length != null : "Violation of : title != null";
+            assert length != "" : "Violation of : title != \"\"";
 
             this.title = title;
+            this.artist = artist;
+            this.album = album;
+            this.length = length;
+        }
 
-            /*
-             * I did some research on methods of making optional parameters
-             * other than method overloading, and this was something I found.
-             * I'm guessing it's not ideal since most sources I found suggested
-             * the builder method and didn't even mention using null values, so
-             * in a real implementation I would likely use the builder method.
-             * I'm not entirely sure why this null method is a bad one though.
-             */
-            if (artist != null) {
-                this.artist = artist;
-            }
+        /**
+         * Constructor that takes in all required song information except album.
+         *
+         * @param title
+         *            Title of the song
+         * @param artist
+         *            Artist of the song
+         * @param length
+         *            Length of the song
+         * @requires title, artist, and length are neither null nor ""
+         */
+        public Song(String title, String artist, String length) {
+            assert title != null : "Violation of : title != null";
+            assert title != "" : "Violation of : title != \"\"";
+            assert artist != null : "Violation of : title != null";
+            assert artist != "" : "Violation of : title != \"\"";
+            assert length != null : "Violation of : title != null";
+            assert length != "" : "Violation of : title != \"\"";
 
-            if (album != null) {
-                this.album = album;
-            }
-
-            if (length != null) {
-                this.length = length;
-            }
+            this.title = title;
+            this.artist = artist;
+            this.length = length;
         }
     }
 
@@ -189,6 +203,20 @@ public class MusicPlaylist1 {
     public MusicPlaylist1() {
         this.songs = new ArrayList<Song>();
     }
+
+    /**
+     * A custom comparator to compare properties of the song class.
+     */
+    class SongComparator implements Comparator<Song> {
+        @Override
+        public int compare(Song s1, Song s2) {
+            return s2.title().compareToIgnoreCase(s1.title());
+        }
+    }
+
+    /*
+     * Kernel methods---------------------------------------------------------
+     */
 
     /**
      * Adds an entry to the database.
@@ -216,7 +244,33 @@ public class MusicPlaylist1 {
     }
 
     /**
-     * Adds an entry to the database.
+     * Adds an entry to the database. No album version.
+     *
+     * @param title
+     *            The title of the song
+     * @param artist
+     *            The artist of the song
+     * @param length
+     *            The length of the song
+     * @requires title, artist, and length are neither null nor ""
+     */
+    public void addEntry(String title, String artist, String length) {
+        assert title != null : "Violation of : title != null";
+        assert title != "" : "Violation of : title != \"\"";
+        assert artist != null : "Violation of : title != null";
+        assert artist != "" : "Violation of : title != \"\"";
+        assert length != null : "Violation of : title != null";
+        assert length != "" : "Violation of : title != \"\"";
+
+        Song song = new Song(title, artist, length);
+
+        this.songs.add(song);
+
+        this.fullySorted = false;
+    }
+
+    /**
+     * Adds an entry to the database. Song version.
      *
      * @param song
      *            An object of type {@code Song} to add to the database.
@@ -280,10 +334,112 @@ public class MusicPlaylist1 {
         return foundSongs;
     }
 
+    /*
+     * Secondary
+     * methods-----------------------------------------------------------------
+     */
+
+    /**
+     * Sorts the database based on alphabetic order of each song's title.
+     */
+    public void sort() {
+        Collections.sort(this.songs, new SongComparator());
+
+        this.fullySorted = true;
+    }
+
     /**
      * Main method.
+     *
+     * @param args
      */
-    public static void main() {
+    public static void main(String[] args) {
+        MusicPlaylist1 db = new MusicPlaylist1();
 
+        db.addEntry("AWAKE", "Hoshimachi Suisei", "Shinsei Mokuroku", "3:18");
+
+        Song suiSong1 = new Song("comet", "Hoshimachi Suisei", "4:27");
+        db.addEntry(suiSong1);
+
+        db.addEntry("BIBIDIBA", "Hoshimachi Suisei", "Shinsei Mokuroku",
+                "3:19");
+
+        db.addEntry("Stellar Stellar", "Hoshimachi Suisei",
+                "Still Still Stellar", "3:19");
+
+        db.addEntry("NEXT COLOR PLANET", "Hoshimachi Suisei",
+                "Still Still Stellar", "4:34");
+
+        db.addEntry("Infinity Karat", "Nanami Urara", "3:25");
+
+        System.out.println("Prints all songs by Hoshimachi Suisei.");
+
+        ArrayList<Song> suiseiSongs = db.getEntries("artist",
+                "Hoshimachi Suisei");
+        for (Song song : suiseiSongs) {
+            System.out.println(song.title());
+        }
+
+        System.out.println(
+                "-----------------------------------------------------");
+        System.out.println("Prints all songs in the album Shinsei Mokuroku.");
+
+        ArrayList<Song> shinseiMokurokuSongs = db.getEntries("album",
+                "Shinsei Mokuroku");
+        for (Song song : shinseiMokurokuSongs) {
+            System.out.println(song.title());
+        }
+
+        System.out.println(
+                "-----------------------------------------------------");
+        System.out
+                .println("Prints all songs in the album Still Still Stellar.");
+
+        ArrayList<Song> stillStillStellarSongs = db.getEntries("album",
+                "Still Still Stellar");
+        for (Song song : stillStillStellarSongs) {
+            System.out.println(song.title());
+
+        }
+
+        System.out.println(
+                "-----------------------------------------------------");
+        System.out.println("Prints out all songs with the same length.");
+
+        ArrayList<Song> similarLengthSongs = db.getEntries("length", "3:19");
+
+        for (Song song : similarLengthSongs) {
+            System.out.println(song.title());
+
+        }
+
+        System.out.println(
+                "-----------------------------------------------------");
+        System.out.println("Prints out all songs by Nanami Urara.");
+
+        ArrayList<Song> nanamiUraraSongs = db.getEntries("artist",
+                "Nanami Urara");
+
+        for (Song song : nanamiUraraSongs) {
+            System.out.println(song.title());
+
+        }
+
+        db.sort();
     }
+
+    /*
+     * Some notes: the sort method will be more useful once I implement the
+     * method that prints to a .csv file. I unfortunately did not have enough
+     * time to implement a removeEntry() method because I spent too much time
+     * figuring out which data structure I should use, but, I'm thinking of
+     * implementing two types: one that takes only one parameter and returns an
+     * ArrayList of all relevant songs found, then goes through each
+     * sequentially, displaying the song's information and asking if the user
+     * wants remove it (there will alternatively be a "yes to all" option). This
+     * first option will use the second option under the hood to remove any
+     * songs the user confirms. The second version will be a specific remove
+     * version that takes title, artist, album, and length or title, artist, and
+     * length, finds a song, confirms with the user, then deletes it.
+     */
 }
