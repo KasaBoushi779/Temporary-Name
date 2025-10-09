@@ -10,7 +10,7 @@ the following form: YYYY.0M.0D.
 
 ### Added
 
-- MusicPlaylist1.java, which includes internal class Song, a comparator for comparing the title of songs alphabetically, a constructor for musicPlaylist1, versions of addEntry, and getEntry. It also includes a main method used to demonstrate the methods.
+- MusicDatabase1.java, which includes internal class Song, a comparator for comparing the title of songs alphabetically, a constructor for musicDatabase1, versions of addEntry, and getEntry. It also includes a main method used to demonstrate the methods.
 
 ## 2025.09.21
 
