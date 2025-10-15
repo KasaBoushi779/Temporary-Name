@@ -138,13 +138,13 @@ public class MusicDatabase1 {
          *            Title of the song
          * @param artist
          *            Artist of the song
-         * @param album
-         *            Album of the song
          * @param length
          *            Length of the song
+         * @param album
+         *            Album of the song
          * @requires title, artist, album, and length are neither null nor ""
          */
-        public Song(String title, String artist, String album, String length) {
+        public Song(String title, String artist, String length, String album) {
             assert title != null : "Violation of : title != null";
             assert title != "" : "Violation of : title != \"\"";
             assert artist != null : "Violation of : title != null";
@@ -186,7 +186,7 @@ public class MusicDatabase1 {
     }
 
     /**
-     * Set containing {@code Song} objects used to represent the playlist.
+     * ArrayList containing {@code Song} objects used to represent the playlist.
      */
     private ArrayList<Song> songs;
 
@@ -225,18 +225,18 @@ public class MusicDatabase1 {
      *            The title of the song
      * @param artist
      *            The artist of the song
-     * @param album
-     *            The album the song is from
      * @param length
      *            The length of the song
+     * @param album
+     *            The album the song is from
      * @requires title != null AND title != ""
      */
-    public void addEntry(String title, String artist, String album,
-            String length) {
+    public void addEntry(String title, String artist, String length,
+            String album) {
         assert title != null : "Violation of: title != null";
         assert title != "" : "Violation of: title != \"\"";
 
-        Song song = new Song(title, artist, album, length);
+        Song song = new Song(title, artist, length, album);
 
         this.songs.add(song);
 
@@ -332,6 +332,11 @@ public class MusicDatabase1 {
         }
 
         return foundSongs;
+    }
+
+    public Song remove(String title, String artist, String length,
+            String album) {
+
     }
 
     /*
