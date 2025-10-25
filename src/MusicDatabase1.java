@@ -334,10 +334,10 @@ public class MusicDatabase1 {
         return foundSongs;
     }
 
-    public Song remove(String title, String artist, String length,
-            String album) {
-
-    }
+    //public Song remove(String title, String artist, String length,
+    //        String album) {
+    //
+    //}
 
     /*
      * Secondary
