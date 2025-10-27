@@ -12,7 +12,7 @@ public class MusicDatabase1 {
      * An internal class containing song data, with methods to set and get
      * parameters (title, artist, album, length).
      */
-    public static final class Song {
+    public static class Song {
 
         /*
          * Private members--------------------------------
@@ -150,7 +150,6 @@ public class MusicDatabase1 {
             assert artist != null : "Violation of : title != null";
             assert artist != "" : "Violation of : title != \"\"";
             assert album != null : "Violation of : title != null";
-            assert album != "" : "Violation of : title != \"\"";
             assert length != null : "Violation of : title != null";
             assert length != "" : "Violation of : title != \"\"";
 
@@ -189,13 +188,6 @@ public class MusicDatabase1 {
      * ArrayList containing {@code Song} objects used to represent the playlist.
      */
     private ArrayList<Song> songs;
-
-    /**
-     * Tracks whether the database is currently fully sorted. It will be set to
-     * false every time a value is added, and set to true whenever the sort
-     * method is called.
-     */
-    private boolean fullySorted = false;
 
     /**
      * No argument constructor.
@@ -239,8 +231,6 @@ public class MusicDatabase1 {
         Song song = new Song(title, artist, length, album);
 
         this.songs.add(song);
-
-        this.fullySorted = false;
     }
 
     /**
@@ -265,8 +255,6 @@ public class MusicDatabase1 {
         Song song = new Song(title, artist, length);
 
         this.songs.add(song);
-
-        this.fullySorted = false;
     }
 
     /**
@@ -280,8 +268,6 @@ public class MusicDatabase1 {
         assert song != null : "Violation of: song != null";
 
         this.songs.add(song);
-
-        this.fullySorted = false;
     }
 
     /**
@@ -349,8 +335,6 @@ public class MusicDatabase1 {
      */
     public void sort() {
         Collections.sort(this.songs, new SongComparator());
-
-        this.fullySorted = true;
     }
 
     /**
