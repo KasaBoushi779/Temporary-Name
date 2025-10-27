@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Calendar Versioning](https://calver.org/) of
 the following form: YYYY.0M.0D.
 
+## 2025.10.26
+
+### Added
+
+- Added sort(), readFromFile(), writeToFile(), displaySong(), displaySongs(), split(), merge() methods to MusicDatabase.java
+
+- Created MusicDatabase.java
+
+- Added size(), contains(), getEntryInOrder(), an internal interface for Song to MusicDatabaseKernel.java
+
+### Changed
+
+- The internal class Song no longer has setter methods
+
+- The addEntry methods that could take Strings for the fields of Song, create a Song, then put it into the database were removed in favor of only having the addEntry method that takes a Song.
+
+## 2025.10.24
+
+### Changed
+
+- Switched to using the SearchField enum in getEntries() and removeEntries()
+
+### Added
+
+- Added addEntry(), getEntries(), removeEntries(), removeEntry() methods to MusicDatabaseKernel.java
+
+- Created MusicDatabaseKernel.java
+
 ## 2025.10.09
 
 ### Added
