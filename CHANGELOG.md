@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Calendar Versioning](https://calver.org/) of
 the following form: YYYY.0M.0D.
 
+## 2025.11.04
+
+### Added
+
+- Made a MusicDatabaseSecondary class
+
+### Removed
+
+- MusicDatabase no longer extends Comparable
+
 ## 2025.10.26
 
 ### Added

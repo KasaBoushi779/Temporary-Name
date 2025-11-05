@@ -4,8 +4,7 @@ import java.util.Comparator;
 /**
  * {@code MusicDatabaseKernel} enhanced with secondary methods.
  */
-public interface MusicDatabase
-        extends Comparator<MusicDatabase>, MusicDatabaseKernel {
+public interface MusicDatabase extends MusicDatabaseKernel {
 
     /*
      * I didn't see any comparator methods in the osu components that had them,
