@@ -1,9 +1,16 @@
-import java.io.PrintWriter;
-
 /**
  * Class for quick tests.
  */
 public final class MusicDatabaseQuickTester {
+
+    /**
+     * Simplified version of System.out.println for convenience.
+     *
+     * @param output
+     */
+    public static void out(String output) {
+        System.out.println(output);
+    }
 
     /**
      * Private constructor to prevent instantiation.
@@ -13,10 +20,12 @@ public final class MusicDatabaseQuickTester {
 
     /**
      * Main method.
+     *
+     * @param args
      */
     public static void main(String[] args) {
-        PrintWriter out = new PrintWriter(System.out);
-
-        out.println("test");
+        Song firstSong = new Song("AWAKE", "Hoshimachi Suisei", "3:18",
+                "Shinsei Mokuroku");
+        out(firstSong.title());
     }
 }

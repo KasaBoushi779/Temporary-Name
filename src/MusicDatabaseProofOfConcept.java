@@ -343,6 +343,12 @@ public class MusicDatabaseProofOfConcept {
      * @param args
      */
     public static void main(String[] args) {
+        /*
+         * The Song constructor and addEntry methods have been changed
+         * (positions of length and album are swapped), so this code must be
+         * modified slightly to work properly. Right now it would produce
+         * incorrect output.
+         */
         MusicDatabaseProofOfConcept db = new MusicDatabaseProofOfConcept();
 
         db.addEntry("AWAKE", "Hoshimachi Suisei", "Shinsei Mokuroku", "3:18");

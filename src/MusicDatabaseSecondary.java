@@ -36,7 +36,7 @@ public class MusicDatabaseSecondary implements MusicDatabase {
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
-    public void displaySong(MusicDatabaseKernel.Song song) {
+    public void displaySong(Song song) {
         PrintWriter out = new PrintWriter(System.out);
 
         out.println("* Title: " + song.title());
@@ -57,7 +57,7 @@ public class MusicDatabaseSecondary implements MusicDatabase {
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
-    public void displaySongs(ArrayList<MusicDatabaseKernel.Song> songs) {
+    public void displaySongs(ArrayList<Song> songs) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException(
                 "Unimplemented method 'displaySongs'");
