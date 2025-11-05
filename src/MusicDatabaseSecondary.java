@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -36,9 +37,22 @@ public class MusicDatabaseSecondary implements MusicDatabase {
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
     public void displaySong(MusicDatabaseKernel.Song song) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'displaySong'");
+        PrintWriter out = new PrintWriter(System.out);
+
+        out.println("* Title: " + song.title());
+        out.println("* Artist: " + song.artist());
+
+        /*
+         * Not all songs are part of an album, so this line will only print if a
+         * song is part of an album
+         */
+        if (!song.album().equals("")) {
+            out.println("* Album: " + song.album());
+        }
+
+        out.println("* Length: " + song.length());
+
+        out.close();
     }
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
