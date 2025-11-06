@@ -7,7 +7,7 @@ import components.standard.Standard;
  * package-wide convention, all references are non-null.)
  */
 public interface MusicDatabaseKernel
-        extends Iterable<MusicDatabase>, Standard<MusicDatabase> {
+        extends Iterable<Song>, Standard<MusicDatabase> {
 
     /*
      * I didn't see any iterator methods in the osu components that had them, so
@@ -24,45 +24,6 @@ public interface MusicDatabaseKernel
          * See above, this comment is just to remove a checkstyle issue.
          */
         TITLE, ARTIST, LENGTH, ALBUM
-    }
-
-    /**
-     * An internal class containing song data, with simple methods to get
-     * parameters (title, artist, album, length).
-     */
-    interface Song {
-
-        /**
-         * Returns {@code this.title}.
-         *
-         * @return The title of the song
-         * @ensures title = this.title
-         */
-        String title();
-
-        /**
-         * Returns {@code this.artist}.
-         *
-         * @return The artist of the song.
-         * @ensures artist = this.artist
-         */
-        String artist();
-
-        /**
-         * Returns {@code this.length}.
-         *
-         * @return The length of the song
-         * @ensures length = this.length
-         */
-        String length();
-
-        /**
-         * Returns {@code this.album}.
-         *
-         * @return The album of the song
-         * @ensures album = this.album
-         */
-        String album();
     }
 
     /**
@@ -112,10 +73,8 @@ public interface MusicDatabaseKernel
     /**
      * A method that takes an enum (which can be "title", "artist", "album", or
      * "length"), and a value to use to find matches within the {@code Song}
-     * objects of the database. For each match it finds, it will print out its
-     * details and ask the user if they want to remove it from the database.
-     * Every match the user chooses to remove will be returned in an
-     * {@code ArrayList}.
+     * objects of the database. For each match it finds, it will remove it from
+     * this and add it to the returned {@code ArrayList}.
      *
      * @param field
      *            An enum representing the {@code Song} field to search through

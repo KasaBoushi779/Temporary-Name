@@ -104,5 +104,5 @@ public interface MusicDatabase extends MusicDatabaseKernel {
      * @ensures this = #this * db
      * @updates this
      */
-    void merge(MusicDatabase db);
+    void append(MusicDatabase db);
 }

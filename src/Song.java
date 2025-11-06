@@ -7,6 +7,6 @@
  * @param album
  * @return
  */
-public record Song(String title, String artist, String length, String album) {
+public record Song(String title, String artist, String album, String length) {
 
 }

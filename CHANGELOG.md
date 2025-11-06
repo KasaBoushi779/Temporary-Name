@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Calendar Versioning](https://calver.org/) of
 the following form: YYYY.0M.0D.
 
+## 2025.11.06
+
+### Changed
+
+- Changed the removeEntries() contract to no longer ask user if they want to remove each match.
+
+- Changed name of merge() to append() to better reflect actual behavior.
+
 ## 2025.11.05
 
 ### Added

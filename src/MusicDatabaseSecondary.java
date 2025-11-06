@@ -1,6 +1,9 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 
 /**
  * Layered implementation of secondary methods for {@code MusicDatabase}.
@@ -34,17 +37,55 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
     public void readFromFile(String inputPath) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'readFromFile'");
+        final int three = 3;
+        try {
+            BufferedReader rdr = new BufferedReader(new FileReader(inputPath));
+            String line = rdr.readLine();
+            /*
+             * The previous call to readLine() got the headers of the file,
+             * which we don't care about here, so we need to call readLine()
+             * again to get the first row of actual data.
+             */
+            line = rdr.readLine();
+
+            while (line != null) {
+                String[] fields = line.split("\t");
+
+                Song song = new Song(fields[0], fields[1], fields[2],
+                        fields[three]);
+
+                this.addEntry(song);
+
+                line = rdr.readLine();
+            }
+            rdr.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
     public void writeToFile(String outputPath) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'writeToFile'");
+        try {
+            BufferedWriter wrtr = new BufferedWriter(
+                    new FileWriter(outputPath));
+
+            wrtr.write("Title\tArtist\tAlbum\tLength");
+            wrtr.newLine();
+
+            for (Song song : this) {
+                wrtr.write(String.format("%s\t%s\t%s\t%s", song.title(),
+                        song.artist(), song.album(), song.length()));
+                wrtr.newLine();
+            }
+
+            wrtr.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
@@ -84,15 +125,22 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     @Override
     public MusicDatabase split(MusicDatabaseKernel.SearchField field,
             String value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'split'");
+        MusicDatabase newDB = new MusicDatabase();
+        ArrayList<Song> splitSongs = this.removeEntries(field, value);
+
+        for (Song song : splitSongs) {
+            newDB.addEntry(song);
+        }
+
+        return newDB;
     }
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
-    public void merge(MusicDatabase db) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'merge'");
+    public void append(MusicDatabase db) {
+        for (Song song : db) {
+            this.addEntry(song);
+        }
     }
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
@@ -113,85 +161,4 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
         throw new UnsupportedOperationException(
                 "Unimplemented method 'equals'");
     }
-
-    /*
-     * -------------------------- Kernel methods -------------------------------
-     */
-
-    @Override
-    public MusicDatabaseKernel.Song getEntryInOrder(int n) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'getEntryInOrder'");
-    }
-
-    @Override
-    public ArrayList<MusicDatabaseKernel.Song> getEntries(
-            MusicDatabaseKernel.SearchField field, String value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'getEntries'");
-    }
-
-    @Override
-    public ArrayList<MusicDatabaseKernel.Song> removeEntries(
-            MusicDatabaseKernel.SearchField field, String value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'removeEntries'");
-    }
-
-    @Override
-    public MusicDatabaseKernel.Song removeEntry(MusicDatabaseKernel.Song song) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'removeEntry'");
-    }
-
-    @Override
-    public Boolean contains(MusicDatabaseKernel.Song song) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'contains'");
-    }
-
-    @Override
-    public int size() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'size'");
-    }
-
-    @Override
-    public Iterator<MusicDatabase> iterator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'iterator'");
-    }
-
-    /*
-     * ------------------------ Standard methods -------------------------------
-     */
-    // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
-    @Override
-    public void clear() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clear'");
-    }
-
-    // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
-    @Override
-    public MusicDatabase newInstance() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'newInstance'");
-    }
-
-    // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
-    @Override
-    public void transferFrom(MusicDatabase arg0) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'transferFrom'");
-    }
-
 }
