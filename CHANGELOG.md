@@ -8,6 +8,10 @@ the following form: YYYY.0M.0D.
 
 ## 2025.11.06
 
+### Added
+
+- Implemented split(), append(), readToFile(), writeToFile()
+
 ### Changed
 
 - Changed the removeEntries() contract to no longer ask user if they want to remove each match.
