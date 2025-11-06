@@ -1,4 +1,3 @@
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -6,7 +5,21 @@ import java.util.Iterator;
 /**
  * Layered implementation of secondary methods for {@code MusicDatabase}.
  */
-public class MusicDatabaseSecondary implements MusicDatabase {
+public abstract class MusicDatabaseSecondary implements MusicDatabase {
+
+    /*
+     * ----------------------------Utility methods------------------------------
+     */
+
+    /**
+     * Simplified version of System.out.println for convenience.
+     *
+     * @param output
+     *            The string to be printed to the console
+     */
+    public static void out(String output) {
+        System.out.println(output);
+    }
 
     /*
      * ------------------------- Secondary methods -----------------------------
@@ -36,31 +49,35 @@ public class MusicDatabaseSecondary implements MusicDatabase {
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
-    public void displaySong(Song song) {
-        PrintWriter out = new PrintWriter(System.out);
+    public void printSong(Song song) {
+        assert song != null : "Violation of: song != null";
 
-        out.println("* Title: " + song.title());
-        out.println("* Artist: " + song.artist());
+        out("* Title: " + song.title());
+        out("* Artist: " + song.artist());
 
         /*
          * Not all songs are part of an album, so this line will only print if a
          * song is part of an album
          */
         if (!song.album().equals("")) {
-            out.println("* Album: " + song.album());
+            out("* Album: " + song.album());
         }
 
-        out.println("* Length: " + song.length());
-
-        out.close();
+        out("* Length: " + song.length());
     }
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
-    public void displaySongs(ArrayList<Song> songs) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'displaySongs'");
+    public void printSongs(ArrayList<Song> songs) {
+        assert songs != null : "Violation of: songs != null";
+
+        out("Songs to be printed: " + songs.size());
+        out("******************************");
+
+        for (Song song : songs) {
+            this.printSong(song);
+            out("********************");
+        }
     }
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
@@ -100,21 +117,6 @@ public class MusicDatabaseSecondary implements MusicDatabase {
     /*
      * -------------------------- Kernel methods -------------------------------
      */
-
-    /**
-     * Inherited from MusicDatabaseKernel. Adds a {@code Song} object to the
-     * database if a duplicate does not already exist.
-     *
-     * @param song
-     *            An object of type {@code Song} to add to the database.
-     * @requires song != null AND an identical Song object is not already in the
-     *           database
-     * @ensures this = #this * song
-     * @updates this
-     */
-    @Override
-    public void addEntry(MusicDatabaseKernel.Song song) {
-    }
 
     @Override
     public MusicDatabaseKernel.Song getEntryInOrder(int n) {

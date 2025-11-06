@@ -12,9 +12,15 @@ the following form: YYYY.0M.0D.
 
 - Made a MusicDatabaseQuickTester class
 
+- Implemented printSong(), printSongs()
+
 ### Changed
 
 - Switched to using a record class for Song
+
+- Changed names of displaySong() and displaySongs() to printSong() and printSongs()
+
+- Changed contracts of readFromFile() and writeToFile() to reflect better .csv file formatting
 
 ## 2025.11.04
 

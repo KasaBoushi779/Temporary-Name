@@ -28,10 +28,9 @@ public interface MusicDatabase extends MusicDatabaseKernel {
      *            The path to the .csv file
      * @requires {@code inputPath} is a valid input path AND the file it leads
      *           to is a .csv file AND it is formatted such that the first
-     *           column is the number of the song, the second column is "title",
-     *           the third is "artist", the fourth is "length", the fifth is
-     *           "album", and the appropriate field values are below the 2-5th
-     *           columns.
+     *           column is "title", the second is "artist", the third is
+     *           "album", the fourth is "length", and the appropriate field
+     *           values are below the 1-4th columns.
      * @ensures this contains all song data in the file {@code inputPath} points
      *          to
      * @updates this
@@ -46,10 +45,9 @@ public interface MusicDatabase extends MusicDatabaseKernel {
      *            printed to .output/Music_Database.csv by default.
      * @requires {@code outputPath} is a valid file path or ""
      * @ensures All songs in this are printed to a .csv file in a manner such
-     *          that the first column is the number of the song, the second
-     *          column is "title", the third is "artist", the fourth is
-     *          "length", the fifth is "album", and the appropriate field values
-     *          are below the 2-5th columns.
+     *          that the first column is "title", the second is "artist", the
+     *          third is "album", the fourth is "length", and the appropriate
+     *          field values are below the 1-4th columns.
      */
     void writeToFile(String outputPath);
 
@@ -63,7 +61,7 @@ public interface MusicDatabase extends MusicDatabaseKernel {
      *          song are printed to the console.
      * @updates console
      */
-    void displaySong(Song song);
+    void printSong(Song song);
 
     /**
      * Prints out the details of all the {@code song} objects in the given
@@ -71,12 +69,12 @@ public interface MusicDatabase extends MusicDatabaseKernel {
      *
      * @param songs
      *            The {@code ArrayList} of {@code Song} objects to print.
-     * @requires songs != null AND each song in songs != null
+     * @requires songs != null
      * @ensures The title, artist, length, and album (if present) of each song
      *          in the given {@code ArrayList} are printed to the console.
      * @updates console
      */
-    void displaySongs(ArrayList<Song> songs);
+    void printSongs(ArrayList<Song> songs);
 
     /**
      * Makes a new database with all songs in this that have a matching value in
