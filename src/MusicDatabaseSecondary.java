@@ -2,6 +2,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -20,8 +24,49 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
      * @param output
      *            The string to be printed to the console
      */
-    public static void out(String output) {
+    private static void out(String output) {
         System.out.println(output);
+    }
+
+    /**
+     * Checks whether the file at the given path is a valid tab delimited .txt
+     * file (Or Tab Separated Values aka TSV file).
+     *
+     * @param filePath
+     *            The path to a .txt file
+     * @return A boolean
+     * @requires filePath leads to a .txt file
+     * @ensures isValidTSVFile = Whether the file at the given path is a valid
+     *          tab delimited .txt file.
+     */
+    private static Boolean isValidTSVFile(String filePath) {
+
+    }
+
+    /**
+     * Checks whether a file is a plain .txt (text/plain) file.
+     *
+     * @param filePath
+     *            The path to a file.
+     * @requires filePath != null
+     * @return A boolean
+     * @ensures isTxt = Whether the file at the given path is a text/plain file
+     */
+    private static Boolean isTxt(String filePath) {
+        Boolean isTxt = true;
+        try {
+            Path pathToFile = Paths.get(filePath);
+
+            if (!Files.probeContentType(pathToFile).equals("text/plain")) {
+                isTxt = false;
+                throw new IllegalArgumentException(
+                        "ERROR: file must be of type \".txt\", "
+                                + "or more specifically, \"text/plain\"");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return isTxt;
     }
 
     /*
@@ -39,7 +84,10 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     public void readFromFile(String inputPath) {
         final int three = 3;
         try {
+            isTxt(inputPath);
+
             BufferedReader rdr = new BufferedReader(new FileReader(inputPath));
+
             String line = rdr.readLine();
             /*
              * The previous call to readLine() got the headers of the file,
@@ -71,7 +119,6 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
         try {
             BufferedWriter wrtr = new BufferedWriter(
                     new FileWriter(outputPath));
-
             wrtr.write("Title\tArtist\tAlbum\tLength");
             wrtr.newLine();
 
@@ -80,9 +127,7 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
                         song.artist(), song.album(), song.length()));
                 wrtr.newLine();
             }
-
             wrtr.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,7 +140,6 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
 
         out("* Title: " + song.title());
         out("* Artist: " + song.artist());
-
         /*
          * Not all songs are part of an album, so this line will only print if a
          * song is part of an album
@@ -103,7 +147,6 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
         if (!song.album().equals("")) {
             out("* Album: " + song.album());
         }
-
         out("* Length: " + song.length());
     }
 
@@ -116,7 +159,16 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
         out("******************************");
 
         for (Song song : songs) {
-            this.printSong(song);
+            out("* Title: " + song.title());
+            out("* Artist: " + song.artist());
+            /*
+             * Not all songs are part of an album, so this line will only print
+             * if a song is part of an album
+             */
+            if (!song.album().equals("")) {
+                out("* Album: " + song.album());
+            }
+            out("* Length: " + song.length());
             out("********************");
         }
     }
@@ -125,7 +177,9 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     @Override
     public MusicDatabase split(MusicDatabaseKernel.SearchField field,
             String value) {
-        MusicDatabase newDB = new MusicDatabase();
+        assert value != null : "Violation of: value != null";
+
+        MusicDatabase newDB = this.newInstance();
         ArrayList<Song> splitSongs = this.removeEntries(field, value);
 
         for (Song song : splitSongs) {
@@ -138,8 +192,30 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
     public void append(MusicDatabase db) {
+        assert db != null : "Violation of: db != null";
+
         for (Song song : db) {
-            this.addEntry(song);
+            if (!this.contains(song)) {
+                this.addEntry(song);
+            }
+        }
+    }
+
+    /*
+     * For the methods above and below, their functionality is identical, but
+     * they take different parameters. Are they fine as is or should I combine
+     * them into one overloaded method?
+     */
+
+    // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
+    @Override
+    public void addEntries(ArrayList<Song> songs) {
+        assert songs != null : "Violation of: songs != null";
+
+        for (Song song : songs) {
+            if (!this.contains(song)) {
+                this.addEntry(song);
+            }
         }
     }
 

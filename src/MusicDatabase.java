@@ -22,15 +22,16 @@ public interface MusicDatabase extends MusicDatabaseKernel {
     void sort(Comparator<MusicDatabase> order);
 
     /**
-     * Creates a database by reading from a properly formatted .csv file.
+     * Adds to a database by reading from a tab-delimited .txt file.
      *
      * @param inputPath
-     *            The path to the .csv file
+     *            The path to the .txt file
      * @requires {@code inputPath} is a valid input path AND the file it leads
-     *           to is a .csv file AND it is formatted such that the first
-     *           column is "title", the second is "artist", the third is
-     *           "album", the fourth is "length", and the appropriate field
-     *           values are below the 1-4th columns.
+     *           to is a tab delimited .txt file AND it is formatted such that
+     *           the first row contains "Title", "Artist", "Album", "Length",
+     *           and every row onwards is such that the first column contains
+     *           the title, the second contains the artist, the third contains
+     *           the album, and the fourth contains the length.
      * @ensures this contains all song data in the file {@code inputPath} points
      *          to
      * @updates this
@@ -38,16 +39,17 @@ public interface MusicDatabase extends MusicDatabaseKernel {
     void readFromFile(String inputPath);
 
     /**
-     * Writes to a .csv file from the database.
+     * Writes to a tab delimited .txt file from the database.
      *
      * @param outputPath
-     *            Path to create the .csv in. If "", the .csv file will be
-     *            printed to .output/Music_Database.csv by default.
+     *            Path to create the .txt in. If "", the .txt file will be
+     *            printed to .output\Music_Database.txt by default.
      * @requires {@code outputPath} is a valid file path or ""
-     * @ensures All songs in this are printed to a .csv file in a manner such
-     *          that the first column is "title", the second is "artist", the
-     *          third is "album", the fourth is "length", and the appropriate
-     *          field values are below the 1-4th columns.
+     * @ensures All songs in this are printed to the output file such that the
+     *          first row contains "Title", "Artist", "Album", "Length", and
+     *          every row onwards is such that the first column contains the
+     *          title, the second contains the artist, the third contains the
+     *          album, and the fourth contains the length.
      */
     void writeToFile(String outputPath);
 
@@ -96,13 +98,26 @@ public interface MusicDatabase extends MusicDatabaseKernel {
     MusicDatabase split(SearchField field, String value);
 
     /**
-     * Appends db to this.
+     * Adds to this the songs in db that are not already in this.
      *
      * @param db
      *            The {@code MusicDatabase} to append to this
      * @requires db != null
-     * @ensures this = #this * db
+     * @ensures this.entries = #this.entries * [the db.entries that were not
+     *          already in this]
      * @updates this
      */
     void append(MusicDatabase db);
+
+    /**
+     * Adds the songs in the given {@code ArrayList} to this if they are not
+     * already in this.
+     *
+     * @param songs
+     *            The songs to be added to this
+     * @ensures this.entries = #this.entries * [the songs.entries that were not
+     *          already in this]
+     * @updates this
+     */
+    void addEntries(ArrayList<Song> songs);
 }

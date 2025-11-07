@@ -10,29 +10,35 @@ the following form: YYYY.0M.0D.
 
 ### Added
 
-- Implemented split(), append(), readToFile(), writeToFile()
+- Made utility method isTxt(), started utility method isValidTSVFile()
+
+- Added addEntries() contract in MusicDatabase
+
+- Implemented split(), append(), readToFile(), writeToFile(), addEntries()
 
 ### Changed
 
-- Changed the removeEntries() contract to no longer ask user if they want to remove each match.
+- Changed readFromFile() and writeToFile() to input/output tab-delimited .txt files instead of .csvs
 
-- Changed name of merge() to append() to better reflect actual behavior.
+- Changed name of merge() to append() and changed contract to better reflect actual behavior.
+
+- Changed the removeEntries() contract to no longer ask user if they want to remove each match.
 
 ## 2025.11.05
 
 ### Added
 
-- Made a MusicDatabaseQuickTester class
-
 - Implemented printSong(), printSongs()
+
+- Made a MusicDatabaseQuickTester class
 
 ### Changed
 
-- Switched to using a record class for Song
+- Changed contracts of readFromFile() and writeToFile() to reflect better .csv file formatting
 
 - Changed names of displaySong() and displaySongs() to printSong() and printSongs()
 
-- Changed contracts of readFromFile() and writeToFile() to reflect better .csv file formatting
+- Switched to using a record class for Song
 
 ## 2025.11.04
 

@@ -2,6 +2,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -115,8 +119,16 @@ public final class MusicDatabaseQuickTester {
     public static void main(String[] args) {
         ArrayList<Song> songs = new ArrayList<Song>();
 
+        Path tempPath = Paths.get("data\\input\\file1.txt");
+
+        try {
+            out(Files.probeContentType(tempPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         readFromFile("data\\input\\file1.txt", songs);
 
-        writeToFile("data\\output\\out1.txt", songs);
+        //writeToFile("data\\output\\out1.txt", songs);
     }
 }
