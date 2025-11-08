@@ -29,17 +29,16 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     }
 
     /**
-     * Checks whether the file at the given path is a valid tab delimited .txt
-     * file (Or Tab Separated Values aka TSV file).
+     * Checks whether the file at the given path is a correctly formatted tab
+     * delimited .txt file.
      *
      * @param filePath
      *            The path to a .txt file
      * @return A boolean
-     * @requires filePath leads to a .txt file
-     * @ensures isValidTSVFile = Whether the file at the given path is a valid
+     * @ensures isValidTDFile = Whether the file at the given path is a valid
      *          tab delimited .txt file.
      */
-    private static Boolean isValidTSVFile(String filePath) {
+    private static Boolean isValidHeader(String line) {
 
     }
 
@@ -222,19 +221,25 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'toString'");
+        StringBuilder result = new StringBuilder(this.size());
+        for (Song song : this) {
+            result.append(String.format("%s\t%s\t%s\t%s\n", song.title(),
+                    song.artist(), song.album(), song.length()));
+        }
+
+        return result.toString();
     }
 
     /**
+     * Checks this and db for equality by comparing their string representations
+     * lexicographically.
      *
      * @param db
-     * @return
+     * @return an int representing how this and db compare to each other
+     * @ensures If this < db, equals < 0; If this > db, equals > 0; If this ==
+     *          db, equals == 0
      */
     public int equals(MusicDatabase db) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'equals'");
+        return (this.toString().compareTo(db.toString()));
     }
 }
