@@ -26,12 +26,12 @@ public interface MusicDatabase extends MusicDatabaseKernel {
      *
      * @param inputPath
      *            The path to the .txt file
-     * @requires {@code inputPath} is a valid input path AND the file it leads
-     *           to is a tab delimited .txt file AND it is formatted such that
-     *           the first row contains "Title", "Artist", "Album", "Length",
-     *           and every row onwards is such that the first column contains
-     *           the title, the second contains the artist, the third contains
-     *           the album, and the fourth contains the length.
+     * @requires {@code inputPath} not null or "" AND the file it leads to is a
+     *           tab delimited .txt file AND it is formatted such that the first
+     *           row contains "Title", "Artist", "Album", "Length", and every
+     *           row onwards is such that the first column contains the title,
+     *           the second contains the artist, the third contains the album
+     *           (optionally), and the fourth contains the length.
      * @ensures this contains all song data in the file {@code inputPath} points
      *          to
      * @updates this

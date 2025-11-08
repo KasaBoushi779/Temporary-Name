@@ -85,27 +85,168 @@ public final class MusicDatabaseQuickTester {
     }
 
     /**
+     * Throws an exception and prints an error message if the given line is not
+     * a valid header.
+     *
+     * @param line
+     *            A line of text from a tab delimited file
+     * @ensures isValidHeader throws an exception if line is a valid header in
+     *          the format "Title\tArtist\tAlbum\tLength".
+     */
+    private static void isValidHeader(String line) {
+        if (!line.equals("Title\tArtist\tAlbum\tLength")) {
+            throw new IllegalArgumentException(
+                    "ERROR: Header is incorrectly formatted. "
+                            + "Header should be in the form"
+                            + " \"Title\\tArtist\\tAlbum\\tLength\", "
+                            + "where \\t is a tab");
+        }
+    }
+
+    /**
+     * Throws an exception if the given line of data is not properly formatted.
+     * See the ensures tag for details.
+     *
+     * @param line
+     *            A line of text
+     * @ensures An exception with a descriptive message is thrown for each
+     *          individual case: 1. If the number of values separated by tabs is
+     *          not four 2. If the first value in the line (title) is null or an
+     *          empty string 3. If the second value in the line (artist) is null
+     *          or an empty string 4. If the fourth value in the line (length)
+     *          is null or an empty string
+     */
+    private static void isValidDataRow(String line) {
+        /*
+         * Splits line along any tabs, including empty strings.
+         */
+        String[] fields = line.split("\t", -1);
+        /*
+         * Checks the number of tabs in the input to make sure there are four
+         * values, even if album is blank.
+         */
+        final int four = 4;
+        if (fields.length != four) {
+            throw new IllegalArgumentException(
+                    "ERROR: the given line is invalid. There must be four "
+                            + "separate values separated by three total tabs "
+                            + "in each row of data.");
+        }
+        /*
+         * Checks to make sure title (index 0), artist (index 1), and length
+         * (index 3) are not null.
+         */
+        if (fields[0] == null || fields[0] == "") {
+            throw new IllegalArgumentException(""
+                    + "ERROR: Title is blank, a title is required for every data row.");
+        }
+        if (fields[1] == null || fields[1] == "") {
+            throw new IllegalArgumentException(
+                    "" + "ERROR: Artist is blank, an artist is required"
+                            + " for every data row.");
+        }
+        final int three = 3;
+        if (fields[three] == null || fields[three] == "") {
+            throw new IllegalArgumentException(""
+                    + "ERROR: Length is blank, a length is required for every data row.");
+        }
+    }
+
+    /**
+     * Throws an exception if the given line of data is not properly formatted.
+     * See the ensures tag for details. Also prints the number of the row
+     * currently being checked.
+     *
+     * @param line
+     *            A line of text
+     * @param rowNum
+     *            The row currently being checked
+     * @ensures An exception with a descriptive message is thrown for each
+     *          individual case: 1. If the number of values separated by tabs is
+     *          not four 2. If the first value in the line (title) is null or an
+     *          empty string 3. If the second value in the line (artist) is null
+     *          or an empty string 4. If the fourth value in the line (length)
+     *          is null or an empty string
+     */
+    private static void isValidDataRow(String line, int rowNum) {
+        /*
+         * Splits line along any tabs, including empty strings.
+         */
+        String[] fields = line.split("\t", -1);
+        /*
+         * Checks the number of tabs in the input to make sure there are four
+         * values, even if album is blank.
+         */
+        final int four = 4;
+        if (fields.length != four) {
+            throw new IllegalArgumentException("ERROR on row " + rowNum
+                    + ": the given line is invalid. There must be four "
+                    + "separate values separated by three total tabs "
+                    + "in each row of data.");
+        }
+        /*
+         * Checks to make sure title (index 0), artist (index 1), and length
+         * (index 3) are not null.
+         */
+        if (fields[0] == null || fields[0] == "") {
+            throw new IllegalArgumentException("ERROR on row " + rowNum
+                    + ": Title is blank, a title is required for every data row.");
+        }
+        if (fields[1] == null || fields[1] == "") {
+            throw new IllegalArgumentException("ERROR on row " + rowNum
+                    + ": Artist is blank, an artist is required"
+                    + " for every data row.");
+        }
+        final int three = 3;
+        if (fields[three] == null || fields[three] == "") {
+            throw new IllegalArgumentException("ERROR on row " + rowNum
+                    + ": Length is blank, a length is required for every data row.");
+        }
+    }
+
+    /**
+     * Throws an exception and prints an error message if the file at the given
+     * file path is not a .txt file.
+     *
+     * @param filePath
+     *            The path to a file.
+     * @requires filePath != null
+     * @ensures isTxt = Whether the file at the given path is a text/plain file
+     */
+    private static void isTxt(String filePath) {
+        assert filePath != null : "Violation of: filePath != null";
+
+        try {
+            Path pathToFile = Paths.get(filePath);
+
+            if (!Files.probeContentType(pathToFile).equals("text/plain")) {
+                throw new IllegalArgumentException(
+                        "ERROR: file must be of type \".txt\", "
+                                + "or more specifically, \"text/plain\"");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * s.
      *
      * @param outputPath
-     * @param songs
      */
-    public static void writeToFile(String outputPath, ArrayList<Song> songs) {
-        try {
-            BufferedWriter wrtr = new BufferedWriter(
-                    new FileWriter(outputPath));
+    public static void writeToFile(String outputPath) {
+        // TO DO
+        assert outputPath != null : "Violation of: outputPath != null";
 
+        String path = outputPath;
+        if (outputPath == "") {
+            path = ".\\output\\Music_Database.txt";
+        }
+
+        try (BufferedWriter wrtr = new BufferedWriter(new FileWriter(path))) {
             wrtr.write("Title\tArtist\tAlbum\tLength");
             wrtr.newLine();
-
-            for (Song song : songs) {
-                wrtr.write(String.format("%s\t%s\t%s\t%s", song.title(),
-                        song.artist(), song.album(), song.length()));
-                wrtr.newLine();
-            }
-
-            wrtr.close();
-
+            out("Success!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,18 +258,42 @@ public final class MusicDatabaseQuickTester {
      * @param args
      */
     public static void main(String[] args) {
-        ArrayList<Song> songs = new ArrayList<Song>();
+        // ArrayList<Song> songs = new ArrayList<Song>();
 
-        Path tempPath = Paths.get("data\\input\\file1.txt");
+        // Path tempPath = Paths.get("data\\input\\file1.txt");
 
-        try {
-            out(Files.probeContentType(tempPath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     out(Files.probeContentType(tempPath));
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
 
-        readFromFile("data\\input\\file1.txt", songs);
+        // readFromFile("data\\input\\file1.txt", songs);
 
         //writeToFile("data\\output\\out1.txt", songs);
+        try (BufferedReader rdr = new BufferedReader(
+                new FileReader("data\\input\\file1.txt"))) {
+
+            String line = rdr.readLine();
+            out(line);
+            isValidHeader(line);
+
+            line = rdr.readLine();
+            out(line);
+            isValidDataRow(line, 2);
+
+            line = "Bye Bye Rainy\tHoshimachi Suisei\t\t3:20";
+            out(line);
+            isValidDataRow(line, 99);
+
+            line = rdr.readLine();
+            out(line);
+            isValidDataRow(line, 3);
+
+            writeToFile("");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

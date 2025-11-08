@@ -29,35 +29,141 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     }
 
     /**
-     * Checks whether the file at the given path is a correctly formatted tab
-     * delimited .txt file.
+     * Throws an exception and prints an error message if the given line is not
+     * a valid header.
      *
-     * @param filePath
-     *            The path to a .txt file
-     * @return A boolean
-     * @ensures isValidTDFile = Whether the file at the given path is a valid
-     *          tab delimited .txt file.
+     * @param line
+     *            A line of text from a tab delimited file
+     * @ensures isValidHeader throws an exception if line is a valid header in
+     *          the format "Title\tArtist\tAlbum\tLength".
      */
-    private static Boolean isValidHeader(String line) {
-
+    private static void isValidHeader(String line) {
+        if (!line.equals("Title\tArtist\tAlbum\tLength")) {
+            throw new IllegalArgumentException(
+                    "ERROR: Header is incorrectly formatted. "
+                            + "Header should be in the form"
+                            + " \"Title\\tArtist\\tAlbum\\tLength\", "
+                            + "where \\t is a tab");
+        }
     }
 
     /**
-     * Checks whether a file is a plain .txt (text/plain) file.
+     * Throws an exception if the given line of data is not properly formatted.
+     * See the ensures tag for details.
+     *
+     * @param line
+     *            A line of text
+     * @ensures An exception with a descriptive message is thrown for each
+     *          individual case: 1. If the number of values separated by tabs is
+     *          not four 2. If the first value in the line (title) is null or an
+     *          empty string 3. If the second value in the line (artist) is null
+     *          or an empty string 4. If the fourth value in the line (length)
+     *          is null or an empty string
+     */
+    private static void isValidDataRow(String line) {
+        /*
+         * Splits line along any tabs, including empty strings.
+         */
+        String[] fields = line.split("\t", -1);
+        /*
+         * Checks the number of tabs in the input to make sure there are four
+         * values, even if album is blank.
+         */
+        final int four = 4;
+        if (fields.length != four) {
+            throw new IllegalArgumentException(
+                    "ERROR: the given line is invalid. There must be four "
+                            + "separate values separated by three total tabs "
+                            + "in each row of data.");
+        }
+        /*
+         * Checks to make sure title (index 0), artist (index 1), and length
+         * (index 3) are not null.
+         */
+        if (fields[0] == null || fields[0] == "") {
+            throw new IllegalArgumentException(""
+                    + "ERROR: Title is blank, a title is required for every data row.");
+        }
+        if (fields[1] == null || fields[1] == "") {
+            throw new IllegalArgumentException(
+                    "" + "ERROR: Artist is blank, an artist is required"
+                            + " for every data row.");
+        }
+        final int three = 3;
+        if (fields[three] == null || fields[three] == "") {
+            throw new IllegalArgumentException(""
+                    + "ERROR: Length is blank, a length is required for every data row.");
+        }
+    }
+
+    /**
+     * Throws an exception if the given line of data is not properly formatted.
+     * See the ensures tag for details. Also prints the number of the row
+     * currently being checked.
+     *
+     * @param line
+     *            A line of text
+     * @param rowNum
+     *            The row currently being checked
+     * @ensures An exception with a descriptive message is thrown for each
+     *          individual case: 1. If the number of values separated by tabs is
+     *          not four 2. If the first value in the line (title) is null or an
+     *          empty string 3. If the second value in the line (artist) is null
+     *          or an empty string 4. If the fourth value in the line (length)
+     *          is null or an empty string
+     */
+    private static void isValidDataRow(String line, int rowNum) {
+        /*
+         * Splits line along any tabs, including empty strings.
+         */
+        String[] fields = line.split("\t", -1);
+        /*
+         * Checks the number of tabs in the input to make sure there are four
+         * values, even if album is blank.
+         */
+        final int four = 4;
+        if (fields.length != four) {
+            throw new IllegalArgumentException("ERROR on row " + rowNum
+                    + ": the given line is invalid. There must be four "
+                    + "separate values separated by three total tabs "
+                    + "in each row of data.");
+        }
+        /*
+         * Checks to make sure title (index 0), artist (index 1), and length
+         * (index 3) are not null.
+         */
+        if (fields[0] == null || fields[0] == "") {
+            throw new IllegalArgumentException("ERROR on row " + rowNum
+                    + ": Title is blank, a title is required for every data row.");
+        }
+        if (fields[1] == null || fields[1] == "") {
+            throw new IllegalArgumentException("ERROR on row " + rowNum
+                    + ": Artist is blank, an artist is required"
+                    + " for every data row.");
+        }
+        final int three = 3;
+        if (fields[three] == null || fields[three] == "") {
+            throw new IllegalArgumentException("ERROR on row " + rowNum
+                    + ": Length is blank, a length is required for every data row.");
+        }
+    }
+
+    /**
+     * Throws an exception and prints an error message if the file at the given
+     * file path is not a .txt file.
      *
      * @param filePath
      *            The path to a file.
      * @requires filePath != null
-     * @return A boolean
      * @ensures isTxt = Whether the file at the given path is a text/plain file
      */
-    private static Boolean isTxt(String filePath) {
-        Boolean isTxt = true;
+    private static void isTxt(String filePath) {
+        assert filePath != null : "Violation of: filePath != null";
+
         try {
             Path pathToFile = Paths.get(filePath);
 
             if (!Files.probeContentType(pathToFile).equals("text/plain")) {
-                isTxt = false;
                 throw new IllegalArgumentException(
                         "ERROR: file must be of type \".txt\", "
                                 + "or more specifically, \"text/plain\"");
@@ -65,7 +171,6 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return isTxt;
     }
 
     /*
@@ -81,32 +186,38 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
     public void readFromFile(String inputPath) {
-        final int three = 3;
-        try {
-            isTxt(inputPath);
+        assert inputPath != null : "Violation of: inputPath != null";
+        assert inputPath != "" : "Violation of: inputPath != \"\"";
 
-            BufferedReader rdr = new BufferedReader(new FileReader(inputPath));
+        try (BufferedReader rdr = new BufferedReader(
+                new FileReader(inputPath));) {
+            isTxt(inputPath);
 
             String line = rdr.readLine();
             /*
              * The previous call to readLine() got the headers of the file,
-             * which we don't care about here, so we need to call readLine()
-             * again to get the first row of actual data.
+             * which we don't care about the value of, so we need to call
+             * readLine() again to get the first row of actual data. But before
+             * that, we still need to make sure the header in the first line is
+             * valid.
              */
+            isValidHeader(line);
+
             line = rdr.readLine();
-
+            int lineCount = 2;
             while (line != null) {
-                String[] fields = line.split("\t");
+                isValidDataRow(line, lineCount);
 
+                String[] fields = line.split("\t");
+                final int three = 3;
                 Song song = new Song(fields[0], fields[1], fields[2],
                         fields[three]);
 
                 this.addEntry(song);
 
                 line = rdr.readLine();
+                lineCount++;
             }
-            rdr.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,9 +226,15 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
     public void writeToFile(String outputPath) {
-        try {
-            BufferedWriter wrtr = new BufferedWriter(
-                    new FileWriter(outputPath));
+        assert outputPath != null : "Violation of: outputPath != null";
+
+        String path = outputPath;
+        if (outputPath == "") {
+            path = ".output\\Music_Database.txt";
+        }
+
+        try (BufferedWriter wrtr = new BufferedWriter(new FileWriter(path))) {
+
             wrtr.write("Title\tArtist\tAlbum\tLength");
             wrtr.newLine();
 
@@ -126,7 +243,6 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
                         song.artist(), song.album(), song.length()));
                 wrtr.newLine();
             }
-            wrtr.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
