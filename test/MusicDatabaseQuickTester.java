@@ -253,18 +253,26 @@ public final class MusicDatabaseQuickTester {
     //     }
     // }
 
-    public static void writeToFile(String outputPath) {
-        assert outputPath != null : "Violation of: outputPath != null";
+    public static void writeToFile(String outputName) {
+        assert outputName != null : "Violation of: outputPath != null";
 
         BufferedWriter wrtr = null;
         try {
-            String path = outputPath;
-            if (outputPath == "") {
-                path = "data\\output\\testOutput2.txt";
+            String path = outputName;
+            if (outputName == "") {
+                path = "data\\output\\testOutput";
             }
 
             File outputFile = new File(path);
-            outputFile.mkdirs();
+
+            /*
+             * Makes the parent folders of the given path if they don't already
+             * exist.
+             */
+            File outputPath = outputFile.getParentFile();
+            if (null != outputPath) {
+                outputPath.mkdirs();
+            }
             wrtr = new BufferedWriter(new FileWriter(outputFile));
 
             wrtr.write("Title\tArtist\tAlbum\tLength");
@@ -324,7 +332,7 @@ public final class MusicDatabaseQuickTester {
             isValidDataRow(line, 3);
 
             // ".\\test\\testOutput"
-            writeToFile("");
+            writeToFile("test");
 
         } catch (Exception e) {
             e.printStackTrace();
