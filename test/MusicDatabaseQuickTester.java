@@ -236,21 +236,21 @@ public final class MusicDatabaseQuickTester {
      * @param outputPath
      */
     // public static void writeToFile(String outputPath) {
-    //     // TO DO
-    //     assert outputPath != null : "Violation of: outputPath != null";
+    // // TO DO
+    // assert outputPath != null : "Violation of: outputPath != null";
 
-    //     String path = outputPath;
-    //     if (outputPath == "") {
-    //         path = "data\\output\\Music_Database";
-    //     }
+    // String path = outputPath;
+    // if (outputPath == "") {
+    // path = "data\\output\\Music_Database";
+    // }
 
-    //     try (BufferedWriter wrtr = new BufferedWriter(new FileWriter(path))) {
-    //         wrtr.write("Title\tArtist\tAlbum\tLength");
-    //         wrtr.newLine();
-    //         out("Success!");
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
+    // try (BufferedWriter wrtr = new BufferedWriter(new FileWriter(path))) {
+    // wrtr.write("Title\tArtist\tAlbum\tLength");
+    // wrtr.newLine();
+    // out("Success!");
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
     // }
 
     public static void writeToFile(String outputName) {
@@ -264,7 +264,6 @@ public final class MusicDatabaseQuickTester {
             }
 
             File outputFile = new File(path);
-
             /*
              * Makes the parent folders of the given path if they don't already
              * exist.
@@ -332,7 +331,7 @@ public final class MusicDatabaseQuickTester {
             isValidDataRow(line, 3);
 
             // ".\\test\\testOutput"
-            writeToFile("test");
+            writeToFile("\\e");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,7 +3,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,55 +44,6 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
                             + "Header should be in the form"
                             + " \"Title\\tArtist\\tAlbum\\tLength\", "
                             + "where \\t is a tab");
-        }
-    }
-
-    /**
-     * Throws an exception if the given line of data is not properly formatted.
-     * See the ensures tag for details.
-     *
-     * @param line
-     *            A line of text
-     * @ensures An exception with a descriptive message is thrown for each
-     *          individual case: 1. If the number of values separated by tabs is
-     *          not four 2. If the first value in the line (title) is null or an
-     *          empty string 3. If the second value in the line (artist) is null
-     *          or an empty string 4. If the fourth value in the line (length)
-     *          is null or an empty string
-     */
-    private static void isValidDataRow(String line) {
-        /*
-         * Splits line along any tabs, including empty strings.
-         */
-        String[] fields = line.split("\t", -1);
-        /*
-         * Checks the number of tabs in the input to make sure there are four
-         * values, even if album is blank.
-         */
-        final int four = 4;
-        if (fields.length != four) {
-            throw new IllegalArgumentException(
-                    "ERROR: the given line is invalid. There must be four "
-                            + "separate values separated by three total tabs "
-                            + "in each row of data.");
-        }
-        /*
-         * Checks to make sure title (index 0), artist (index 1), and length
-         * (index 3) are not null.
-         */
-        if (fields[0] == null || fields[0] == "") {
-            throw new IllegalArgumentException(""
-                    + "ERROR: Title is blank, a title is required for every data row.");
-        }
-        if (fields[1] == null || fields[1] == "") {
-            throw new IllegalArgumentException(
-                    "" + "ERROR: Artist is blank, an artist is required"
-                            + " for every data row.");
-        }
-        final int three = 3;
-        if (fields[three] == null || fields[three] == "") {
-            throw new IllegalArgumentException(""
-                    + "ERROR: Length is blank, a length is required for every data row.");
         }
     }
 
@@ -169,7 +119,7 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
                         "ERROR: file must be of type \".txt\", "
                                 + "or more specifically, \"text/plain\"");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -233,10 +183,18 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
         try {
             String path = outputPath;
             if (outputPath == "") {
-                path = ".\\musicDatabaseOutput\\Music_Database";
+                path = ".\\MusicDatabase\\MusicDatabase_Output";
             }
 
             File outputFile = new File(path);
+            /*
+             * Makes the parent folders of the given path if they don't already
+             * exist.
+             */
+            File outputDirectory = outputFile.getParentFile();
+            if (outputDirectory != null) {
+                outputDirectory.mkdirs();
+            }
             wrtr = new BufferedWriter(new FileWriter(outputFile));
 
             wrtr.write("Title\tArtist\tAlbum\tLength");
@@ -256,7 +214,7 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
                 if (wrtr != null) {
                     wrtr.close();
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
