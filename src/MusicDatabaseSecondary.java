@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -228,12 +229,15 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     public void writeToFile(String outputPath) {
         assert outputPath != null : "Violation of: outputPath != null";
 
-        String path = outputPath;
-        if (outputPath == "") {
-            path = ".output\\Music_Database.txt";
-        }
+        BufferedWriter wrtr = null;
+        try {
+            String path = outputPath;
+            if (outputPath == "") {
+                path = ".\\musicDatabaseOutput\\Music_Database";
+            }
 
-        try (BufferedWriter wrtr = new BufferedWriter(new FileWriter(path))) {
+            File outputFile = new File(path);
+            wrtr = new BufferedWriter(new FileWriter(outputFile));
 
             wrtr.write("Title\tArtist\tAlbum\tLength");
             wrtr.newLine();
@@ -243,8 +247,18 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
                         song.artist(), song.album(), song.length()));
                 wrtr.newLine();
             }
+
+            wrtr.flush();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (wrtr != null) {
+                    wrtr.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

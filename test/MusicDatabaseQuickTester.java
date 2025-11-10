@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -234,21 +235,53 @@ public final class MusicDatabaseQuickTester {
      *
      * @param outputPath
      */
+    // public static void writeToFile(String outputPath) {
+    //     // TO DO
+    //     assert outputPath != null : "Violation of: outputPath != null";
+
+    //     String path = outputPath;
+    //     if (outputPath == "") {
+    //         path = "data\\output\\Music_Database";
+    //     }
+
+    //     try (BufferedWriter wrtr = new BufferedWriter(new FileWriter(path))) {
+    //         wrtr.write("Title\tArtist\tAlbum\tLength");
+    //         wrtr.newLine();
+    //         out("Success!");
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+
     public static void writeToFile(String outputPath) {
-        // TO DO
         assert outputPath != null : "Violation of: outputPath != null";
 
-        String path = outputPath;
-        if (outputPath == "") {
-            path = ".\\output\\Music_Database.txt";
-        }
+        BufferedWriter wrtr = null;
+        try {
+            String path = outputPath;
+            if (outputPath == "") {
+                path = "data\\output\\testOutput2.txt";
+            }
 
-        try (BufferedWriter wrtr = new BufferedWriter(new FileWriter(path))) {
+            File outputFile = new File(path);
+            outputFile.mkdirs();
+            wrtr = new BufferedWriter(new FileWriter(outputFile));
+
             wrtr.write("Title\tArtist\tAlbum\tLength");
             wrtr.newLine();
+
+            wrtr.flush();
             out("Success!");
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (wrtr != null) {
+                    wrtr.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -263,14 +296,14 @@ public final class MusicDatabaseQuickTester {
         // Path tempPath = Paths.get("data\\input\\file1.txt");
 
         // try {
-        //     out(Files.probeContentType(tempPath));
+        // out(Files.probeContentType(tempPath));
         // } catch (IOException e) {
-        //     e.printStackTrace();
+        // e.printStackTrace();
         // }
 
         // readFromFile("data\\input\\file1.txt", songs);
 
-        //writeToFile("data\\output\\out1.txt", songs);
+        // writeToFile("data\\output\\out1.txt", songs);
         try (BufferedReader rdr = new BufferedReader(
                 new FileReader("data\\input\\file1.txt"))) {
 
@@ -290,6 +323,7 @@ public final class MusicDatabaseQuickTester {
             out(line);
             isValidDataRow(line, 3);
 
+            // ".\\test\\testOutput"
             writeToFile("");
 
         } catch (Exception e) {

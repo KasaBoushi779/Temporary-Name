@@ -39,12 +39,16 @@ public interface MusicDatabase extends MusicDatabaseKernel {
     void readFromFile(String inputPath);
 
     /**
-     * Writes to a tab delimited .txt file from the database.
+     * Writes to a tab delimited .txt file from the database. If no path is
+     * given the data will be printed to .\output\Music_Database.txt by default.
+     * If no file exists in either case one will be created, and if a file does
+     * exist, it will be overwritten.
      *
      * @param outputPath
      *            Path to create the .txt in. If "", the .txt file will be
-     *            printed to .output\Music_Database.txt by default.
-     * @requires {@code outputPath} is a valid file path or ""
+     *            printed to .\output\Music_Database.txt by default.
+     * @requires {@code outputPath} is a valid file path and can be printed to,
+     *           or it is ""
      * @ensures All songs in this are printed to the output file such that the
      *          first row contains "Title", "Artist", "Album", "Length", and
      *          every row onwards is such that the first column contains the
