@@ -8,6 +8,10 @@ the following form: YYYY.0M.0D.
 
 ## 2025.11.10
 
+### Changed
+
+- Moved sort method to kernel methods rather than secondary methods to improve ease of implementation
+
 ### Added
 
 - Finished adding error checking to readFromFile() and writeToFile()

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import components.standard.Standard;
 
@@ -120,4 +121,14 @@ public interface MusicDatabaseKernel
      * @ensures size = this.length
      */
     int size();
+
+    /**
+     * Sorts the database based on the provided {@code Comparator}.
+     *
+     * @param order
+     *            A {@code Comparator<MusicDatabase>} used to sort the database.
+     * @ensures The database is sorted according to {@code order}
+     * @updates this
+     */
+    void sort(Comparator<Song> order);
 }

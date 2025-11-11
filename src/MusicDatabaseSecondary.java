@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * Layered implementation of secondary methods for {@code MusicDatabase}.
@@ -127,12 +126,6 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
     /*
      * ------------------------- Secondary methods -----------------------------
      */
-    // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
-    @Override
-    public void sort(Comparator<MusicDatabase> order) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'sort'");
-    }
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
@@ -164,7 +157,9 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
                 Song song = new Song(fields[0], fields[1], fields[2],
                         fields[three]);
 
-                this.addEntry(song);
+                if (!this.contains(song)) {
+                    this.addEntry(song);
+                }
 
                 line = rdr.readLine();
                 lineCount++;
@@ -183,7 +178,7 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
         try {
             String path = outputPath;
             if (outputPath == "") {
-                path = ".\\MusicDatabase\\MusicDatabase_Output";
+                path = ".\\output\\Music_Database";
             }
 
             File outputFile = new File(path);

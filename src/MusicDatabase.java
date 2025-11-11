@@ -1,25 +1,9 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * {@code MusicDatabaseKernel} enhanced with secondary methods.
  */
 public interface MusicDatabase extends MusicDatabaseKernel {
-
-    /*
-     * I didn't see any comparator methods in the osu components that had them,
-     * so I assume they're not needed here?
-     */
-
-    /**
-     * Sorts the database based on the provided {@code Comparator}.
-     *
-     * @param order
-     *            A {@code Comparator<MusicDatabase>} used to sort the database.
-     * @ensures The database is sorted according to {@code order}
-     * @updates this
-     */
-    void sort(Comparator<MusicDatabase> order);
 
     /**
      * Adds to a database by reading from a tab-delimited .txt file.
