@@ -1,38 +1,21 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * {@code MusicDatabaseKernel} enhanced with secondary methods.
  */
-public interface MusicDatabase
-        extends Comparator<MusicDatabase>, MusicDatabaseKernel {
-
-    /*
-     * I didn't see any comparator methods in the osu components that had them,
-     * so I assume they're not needed here?
-     */
+public interface MusicDatabase extends MusicDatabaseKernel {
 
     /**
-     * Sorts the database based on the provided {@code Comparator}.
-     *
-     * @param order
-     *            A {@code Comparator<MusicDatabase>} used to sort the database.
-     * @ensures The database is sorted according to {@code order}
-     * @updates this
-     */
-    void sort(Comparator<MusicDatabase> order);
-
-    /**
-     * Creates a database by reading from a properly formatted .csv file.
+     * Adds to a database by reading from a tab-delimited .txt file.
      *
      * @param inputPath
-     *            The path to the .csv file
-     * @requires {@code inputPath} is a valid input path AND the file it leads
-     *           to is a .csv file AND it is formatted such that the first
-     *           column is the number of the song, the second column is "title",
-     *           the third is "artist", the fourth is "length", the fifth is
-     *           "album", and the appropriate field values are below the 2-5th
-     *           columns.
+     *            The path to the .txt file
+     * @requires {@code inputPath} not null or "" AND the file it leads to is a
+     *           tab delimited .txt file AND it is formatted such that the first
+     *           row contains "Title", "Artist", "Album", "Length", and every
+     *           row onwards is such that the first column contains the title,
+     *           the second contains the artist, the third contains the album
+     *           (optionally), and the fourth contains the length.
      * @ensures this contains all song data in the file {@code inputPath} points
      *          to
      * @updates this
@@ -40,17 +23,21 @@ public interface MusicDatabase
     void readFromFile(String inputPath);
 
     /**
-     * Writes to a .csv file from the database.
+     * Writes to a tab delimited .txt file from the database. If no path is
+     * given the data will be printed to .\output\Music_Database.txt by default.
+     * If no file exists in either case one will be created, and if a file does
+     * exist, it will be overwritten.
      *
      * @param outputPath
-     *            Path to create the .csv in. If "", the .csv file will be
-     *            printed to .output/Music_Database.csv by default.
-     * @requires {@code outputPath} is a valid file path or ""
-     * @ensures All songs in this are printed to a .csv file in a manner such
-     *          that the first column is the number of the song, the second
-     *          column is "title", the third is "artist", the fourth is
-     *          "length", the fifth is "album", and the appropriate field values
-     *          are below the 2-5th columns.
+     *            Path to create the .txt in. If "", the .txt file will be
+     *            printed to .\output\Music_Database.txt by default.
+     * @requires {@code outputPath} is a valid file path and can be printed to,
+     *           or it is ""
+     * @ensures All songs in this are printed to the output file such that the
+     *          first row contains "Title", "Artist", "Album", "Length", and
+     *          every row onwards is such that the first column contains the
+     *          title, the second contains the artist, the third contains the
+     *          album, and the fourth contains the length.
      */
     void writeToFile(String outputPath);
 
@@ -64,7 +51,7 @@ public interface MusicDatabase
      *          song are printed to the console.
      * @updates console
      */
-    void displaySong(Song song);
+    void printSong(Song song);
 
     /**
      * Prints out the details of all the {@code song} objects in the given
@@ -72,12 +59,12 @@ public interface MusicDatabase
      *
      * @param songs
      *            The {@code ArrayList} of {@code Song} objects to print.
-     * @requires songs != null AND each song in songs != null
+     * @requires songs != null
      * @ensures The title, artist, length, and album (if present) of each song
      *          in the given {@code ArrayList} are printed to the console.
      * @updates console
      */
-    void displaySongs(ArrayList<Song> songs);
+    void printSongs(ArrayList<Song> songs);
 
     /**
      * Makes a new database with all songs in this that have a matching value in
@@ -99,13 +86,26 @@ public interface MusicDatabase
     MusicDatabase split(SearchField field, String value);
 
     /**
-     * Appends db to this.
+     * Adds to this the songs in db that are not already in this.
      *
      * @param db
      *            The {@code MusicDatabase} to append to this
      * @requires db != null
-     * @ensures this = #this * db
+     * @ensures this.entries = #this.entries * [the db.entries that were not
+     *          already in this]
      * @updates this
      */
-    void merge(MusicDatabase db);
+    void append(MusicDatabase db);
+
+    /**
+     * Adds the songs in the given {@code ArrayList} to this if they are not
+     * already in this.
+     *
+     * @param songs
+     *            The songs to be added to this
+     * @ensures this.entries = #this.entries * [the songs.entries that were not
+     *          already in this]
+     * @updates this
+     */
+    void addEntries(ArrayList<Song> songs);
 }

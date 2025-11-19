@@ -32,7 +32,12 @@
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "c:\\Users\\jacks\\Documents\\GitHub\\Temporary-Name\\lib\\components.jar",
+        "c:\\Users\\jacks\\Documents\\GitHub\\Temporary-Name\\lib\\BWClient.jar",
+        "c:\\Users\\jacks\\Documents\\GitHub\\Temporary-Name\\lib\\junit-4.13.2.jar",
+        "c:\\Users\\jacks\\Documents\\GitHub\\Temporary-Name\\lib\\BWServer.jar",
+        "c:\\Users\\jacks\\Documents\\GitHub\\Temporary-Name\\lib\\hamcrest-core-1.3.jar",
+        "c:\\Users\\jacks\\Documents\\GitHub\\Temporary-Name\\lib\\binary-tree-utility.jar"
     ],
     "java.saveActions.cleanup": true,
     "java.cleanup.actions": [

@@ -6,6 +6,78 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Calendar Versioning](https://calver.org/) of
 the following form: YYYY.0M.0D.
 
+## 2025.11.10
+
+### Changed
+
+- Moved sort method to kernel methods rather than secondary methods to improve ease of implementation
+
+### Added
+
+- Finished adding error checking to readFromFile() and writeToFile()
+
+## 2025.11.08
+
+### Changed
+
+- Split isValidTDFile() into isValidHeader() and isValidDataRow()
+
+- Modified readFromFile() to better check for errors and integrate contract checking methods (isTxt(), isValidHeader(), isValidDataRow())
+
+## 2025.11.07
+
+### Added
+
+- Implemented toString(), equals()
+
+### Changed
+
+- Changed name of isValidTSVFile() to isValidTDFile()
+
+## 2025.11.06
+
+### Added
+
+- Made utility method isTxt(), started utility method isValidTSVFile()
+
+- Added addEntries() contract in MusicDatabase
+
+- Implemented split(), append(), readToFile(), writeToFile(), addEntries()
+
+### Changed
+
+- Changed readFromFile() and writeToFile() to input/output tab-delimited .txt files instead of .csvs
+
+- Changed name of merge() to append() and changed contract to better reflect actual behavior.
+
+- Changed the removeEntries() contract to no longer ask user if they want to remove each match.
+
+## 2025.11.05
+
+### Added
+
+- Implemented printSong(), printSongs()
+
+- Made a MusicDatabaseQuickTester class
+
+### Changed
+
+- Changed contracts of readFromFile() and writeToFile() to reflect better .csv file formatting
+
+- Changed names of displaySong() and displaySongs() to printSong() and printSongs()
+
+- Switched to using a record class for Song
+
+## 2025.11.04
+
+### Added
+
+- Made a MusicDatabaseSecondary class
+
+### Removed
+
+- MusicDatabase no longer extends Comparable
+
 ## 2025.10.26
 
 ### Added
