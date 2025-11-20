@@ -18,7 +18,7 @@ the following form: YYYY.0M.0D.
 
 - Changed name of getEntryInOrder() to getEntryByOrder() to better reflect functionality and align with removeEntryByOrder()
 
-- Modified some contracts for better error checking and improved clarity in descriptions.
+- Modified some contracts (and corresponding implementations) for better error checking and improved clarity in descriptions.
 
 ## 2025.11.19
 
