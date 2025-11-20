@@ -10,11 +10,6 @@ import components.standard.Standard;
 public interface MusicDatabaseKernel
         extends Iterable<Song>, Standard<MusicDatabase> {
 
-    /*
-     * I didn't see any iterator methods in the osu components that had them, so
-     * I assume they're not needed here?
-     */
-
     /**
      * An enum for methods only intended to accept the four fields of the
      * {@code Song} class as one of their parameters (i.e. methods searching by
@@ -96,7 +91,7 @@ public interface MusicDatabaseKernel
      * @param song
      *            A {@code Song} object to be searched for and removed, then
      *            returned.
-     * @return An {@code ArrayList} of all {@code Songs} removed.
+     * @return The {@code Song} removed.
      * @requires {@code song} is in this
      * @ensures this = #this / song
      * @updates this
@@ -110,7 +105,7 @@ public interface MusicDatabaseKernel
      * @param song
      *            A {@code Song} object to be searched for
      * @return A boolean
-     * @ensures contains == true if {@code song} is in this
+     * @ensures contains = true if {@code song} is in this
      */
     Boolean contains(Song song);
 
@@ -118,7 +113,7 @@ public interface MusicDatabaseKernel
      * Returns the number of songs in the database.
      *
      * @return the number of songs in the database.
-     * @ensures size = this.length
+     * @ensures size = this.size
      */
     int size();
 
