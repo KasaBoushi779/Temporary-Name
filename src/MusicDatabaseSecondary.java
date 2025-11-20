@@ -251,7 +251,7 @@ public abstract class MusicDatabaseSecondary implements MusicDatabase {
                 out("* Album: " + song.album());
             }
             out("* Length: " + song.length());
-            out("********************");
+            out("******************************");
         }
     }
 

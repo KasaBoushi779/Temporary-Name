@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Calendar Versioning](https://calver.org/) of
 the following form: YYYY.0M.0D.
 
+## 2025.11.20
+
+### Added
+
+- Added removeEntryByOrder() contract to kernel and method implementation to MusicDatabase1
+
+- Implemented getEntryByOrder(), getEntries(), and iterator with methods hasNext() and next()
+
+### Changed
+
+- Changed name of getEntryInOrder() to getEntryByOrder() to better reflect functionality and align with removeEntryByOrder()
+
+- Modified some contracts for better error checking and improved clarity in descriptions.
+
 ## 2025.11.19
 
 ### Added
