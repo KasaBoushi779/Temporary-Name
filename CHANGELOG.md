@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Calendar Versioning](https://calver.org/) of
 the following form: YYYY.0M.0D.
 
+## 2025.11.22
+
+### Added
+
+- Added comparator classes to MusicDatabaseSecondary for comparing the title, artist, and album of a song by their natural order (lexicographically), and a comparator class for comparing the length of a song by amount of seconds.
+
+- Implemented sort() method
+
+- Implemented removeEntries()
+
+- Added remove() method to iterator
+
 ## 2025.11.20
 
 ### Added
