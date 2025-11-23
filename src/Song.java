@@ -10,7 +10,10 @@
 public record Song(String title, String artist, String album, String length) {
 
     /**
-     * Song constructor.
+     * Song constructor. Putting empty quotes ("") in for the album field will
+     * set it to the default value. Empty quotes are not allowed for any other
+     * field though. Also, the length field must be in the format hh:mm:ss or
+     * mm:ss.
      *
      * @param title
      * @param artist
@@ -22,8 +25,14 @@ public record Song(String title, String artist, String album, String length) {
 
         assert title != "" : "Violation of: title != \"\"";
         assert artist != "" : "Violation of: artist != \"\"";
-        assert length.split(":").length < four : ""
+        assert length != "" : "Violation of: length != \"\"";
+        String[] test = length.split(":");
+        assert test.length < four : ""
                 + "Violation of: Songs can have a length of at most 99:99:99";
+        for (String str : test) {
+            assert str.length() == 2 : ""
+                    + "Violation of: length string must be in format hh:mm:ss or mm:ss";
+        }
 
         this.title = title;
         this.artist = artist;

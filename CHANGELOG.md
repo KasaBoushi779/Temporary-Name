@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Calendar Versioning](https://calver.org/) of
 the following form: YYYY.0M.0D.
 
+## 2025.11.23
+
+### Added
+
+- Added asserts to Song class constructor to ensure correct formatting
+
 ## 2025.11.22
 
 ### Added
